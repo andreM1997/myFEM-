@@ -77,12 +77,12 @@ class PlotWidget(QWidget):
         deformed_mesh['Data'] = self.scalar_field[:,coord]
 
 
-        print("min ux:", np.min(self.current_disp[:,0]))
-        print("max ux:", np.max(self.current_disp[:,0]))
-        print("min uy:", np.min(self.current_disp[:,1]))
-        print("max uy:", np.max(self.current_disp[:,1]))
-        print("min uz:", np.min(self.current_disp[:,2]))
-        print("max uz:", np.max(self.current_disp[:,2]))
+        #print("min ux:", np.min(self.current_disp[:,0]))
+        #print("max ux:", np.max(self.current_disp[:,0]))
+        #print("min uy:", np.min(self.current_disp[:,1]))
+        #print("max uy:", np.max(self.current_disp[:,1]))
+        #print("min uz:", np.min(self.current_disp[:,2]))
+        #print("max uz:", np.max(self.current_disp[:,2]))
 
 
         

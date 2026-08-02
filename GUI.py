@@ -190,10 +190,9 @@ class FEMGUI(QMainWindow):
         # definition welche Berechnungen ausgeführt werden - statische FEM, Modalanalyse, transiente Analyse... 
         # (momentan auch unterteilung anhand materialmodell das aber eher im Materialmodell selber differenzieren)
         def aufrufauswahl():
-            #hier wird über if schleifen festgestellt welche methode des controllers aufgerufen werden soll
+            #hier wird über if schleifen festgestellt welche methode des controllers aufgerufen werden sol            
             if self.mat_combo2.currentText()=="linear elastisch":
                 self.controller.static_structural()
-                print("lineare FEM wird ausgeführt")
             elif self.mat_combo2.currentText()=="hyperelastisch":
                 print("hyperelastische Berechnung wird ausgeführt")
 
@@ -494,7 +493,7 @@ class FEMGUI(QMainWindow):
                 self.set_bc_selection_mode(index, idx=1)    #kann nur Flächen auswählen (evtl noch machen das diese immer grün sind)/für gelenklager zb nur Knoten auswählbar
                 self.lock_checkboxes[len(self.lock_checkboxes)-1] = {('Tx:',True),('Ty:',True),('Tz:',True),('Rx:',True),('Ry:',True),('Rz:',True)}   # indexierung noch anders da rückwirkend keine Änderungen mehr gemacht werden können only new bearings can be added correctly
                 bc["tree_items"]["bearing_type"] = combo.currentText()
-                print("welches lager haben wir",combo.currentText())
+                #print("welches lager haben wir",combo.currentText())
 
                 
                

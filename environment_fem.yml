@@ -2,23 +2,28 @@ name: FEMProgramm
 
 channels:
   - conda-forge
-  - defaults
 
 dependencies:
 
   # Python
   - python=3.10
 
+  # BLAS / LAPACK
+  - blas=*=mkl
+  - mkl
+  - mkl-service
+  - threadpoolctl
+
   # Numerik
   - numpy=1.26.4
   - scipy=1.11.4
   - sympy=1.12
 
-  # Sparse Solver SuiteSparse
+  # Sparse FEM Solver
   - suitesparse
   - scikit-sparse=0.4.12
 
-  # FEM Mesh
+  # Mesh Verarbeitung
   - meshio=5.3.5
   - gmsh=4.11.1
 
@@ -37,6 +42,6 @@ dependencies:
   - packaging
   - pip
 
-
+  # Pip Pakete
   - pip:
       - PyQt6-sip==13.8.0

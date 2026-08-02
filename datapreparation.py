@@ -4,7 +4,6 @@ import meshio
 import sympy as sp
 import inspect
 import scipy
-
 from scipy.sparse.linalg import eigsh
 from scipy.sparse import csr_matrix, coo_matrix
 
@@ -58,7 +57,6 @@ class def_data:
 
     def __init__(self, fem_window):
 
-        print("bin in datapreparation angelangt")
         
         self.gui                = fem_window
         self.nodecoordinate     = None
@@ -132,11 +130,6 @@ class def_data:
             return None
         nodedata = (self.nodecoordinate, self.node2cell,self.node2dof)
 
-
-
-
-
-
         return nodedata
     
 
@@ -175,7 +168,6 @@ class def_data:
         #self.n_el_node = 8 # wie viele Knoten ein bestimmtes element hat zb. hex 8 enthält 8 Knoten 
         k=0
 
-        
 
         #diese drei attribute werden durch calc jacobian geändert
         self.Jacobi     = np.zeros((3,3,self.n_elements,self.n_GP[0]))   #korrigieren hier muss noch bessere lösung gefunden werden das self.n_GP[0] nicht richtig ist
@@ -193,6 +185,7 @@ class def_data:
                     for GP in range(0,self.n_GP[i]):
                         d_shape_fun_eval[GP+d_xyz*8+n_shape_fun*24] = d_shape_fun[n_shape_fun](self.gaus_pos_hex8_2[GP][0],self.gaus_pos_hex8_2[GP][1],self.gaus_pos_hex8_2[GP][2])
 
+
         for element in range(0,self.n_elements):                                    #   abhängig von der anzahl an Elementen (die hexader sind, am ende schleife um ganze def_el_stiffness für die verschiedenen elementtypen)
             for GP in range(0,self.n_GP[0]):                                        #   muss noch angepasst werden schleife darüber darf nicht direkt über alle element gehen sondern muss blockweise elements abarbeiten um auch unterschiedliche elemente innerhalb eines meshes zu unterstützen
                 for x_y_z in range(0,self.n_dim):
@@ -208,6 +201,7 @@ class def_data:
                 self.det_Jacobi[element,GP]   = np.linalg.det(Jacobi_2d)
                 self.inv_Jacobi[:,:,element,GP] = np.linalg.inv(Jacobi_2d)
                 k+=1
+
 
             
 
@@ -287,7 +281,7 @@ class def_data:
 
         self.jacobian()
         self.deformation_tensor("linear")                           #   später wenn mehrere verzerrungstensoren vorhanden sind als variable aus der GUI ziehen
-        
+
         for element in range(0,self.n_elements):
             self.el_stiffness     = np.zeros((24,24))
             for GP in range(0,self.n_GP[0]):
@@ -348,12 +342,12 @@ class def_data:
         rows, cols, data = zip(*COO_matrix)
         K_csr = coo_matrix((data, (rows, cols)), shape=(n_dof, n_dof)).tocsr()
 
-        row = K_csr.indptr.tolist()    # Zeiger auf Zeilenanfang
+        row = K_csr.indptr.tolist()      # Zeiger auf Zeilenanfang
         column = K_csr.indices.tolist()  # Spaltenindizes der Werte
         value = K_csr.data.tolist()      # Werte
 
 
-        # soll nur COO zu CSR Format umschreiben (egal ob matrix oder vektor damit für Kraftvektor auch verwendet werden kann)
+        # soll nur COO zu CSR Format umschreiben 
         #while j < len(COO_matrix):
             #k=0
             #print("j:",j)
@@ -451,14 +445,9 @@ class def_data:
                 const_pressure_bc, integration_variables, free_coords, face_Jacobian, faces = self.get_constant_pressure(i)
                 globalForceVector_COO = self.def_force_vector(faces, integration_variables,free_coords,const_pressure_bc,face_Jacobian,i)
 
-                print("faces an denen die Kraftrandbedingung angewandt wird:", faces)
-
                 for k in range(0,len(globalForceVector_COO)):
                     globalForceVector[globalForceVector_COO[k][1]]+=globalForceVector_COO[k][0]
                     #print("freiheitsgrad des globale Force Vektor eintrags",globalForceVector_COO[k][1])
-
-                print("globaler Force Vector",globalForceVector)
-
 
                
 
@@ -478,9 +467,6 @@ class def_data:
             self.globalForceVector = globalForceVector
 
         FEMdata = (self.row, self.column, self.value, np.asarray(globalForceVector))
-
-
-        print("gesamtkraft: ",sum(globalForceVector))
 
         return FEMdata 
 
@@ -713,14 +699,6 @@ class def_data:
 
 
         faces = next(d.get('faces') for d in self.gui.boundary_conditions if 'faces' in d)
-
-        print("faces",faces)
-
-        
-        #print("ELEMENTNODES", list(list(self.gui.boundary_conditions[i]["elementnodes"])))
-
-        
-
 
         for j in range(0,len(faces)):
             element_type.append(next(d.get('elementtype') for d in self.gui.boundary_conditions if 'elementtype' in d))

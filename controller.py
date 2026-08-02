@@ -48,13 +48,15 @@ class Controller:
         nodedata = lineare_FEM.nodematrices() 
         lineare_FEM.mat_model()
         lineare_FEM.def_stiffness()
+
         FEMdata = lineare_FEM.apply_bc("penalty")   # oder None wenn keine dirichlet RB/ eigentlich aus GUI herausziehen
+
+        
         
         #solverdata = ("static","linear","Cholesky")  # nur vorübergehen später aus GUI herausziehen
         #solver = Solver.solveFEM(nodedata,FEMdata,solverdata)
         solver = Solver.solveFEM(lineare_FEM)
         self.displacements = solver.solve_static_structural()
-        print("die displacements wurden berechnet")
 
         
         
